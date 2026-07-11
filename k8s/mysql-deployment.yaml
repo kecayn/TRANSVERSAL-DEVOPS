@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: 334987711617.dkr.ecr.us-east-1.amazonaws.com/tienda-db:eks-v1 # Colocar uri de tu imagen en ECR
+          image: 334987711617.dkr.ecr.us-east-1.amazonaws.com/tienda-db:eks-v1
           ports:
             - containerPort: 3306
           env:
@@ -24,9 +24,12 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: "tienda_perritos"
+          # Volumen tipo emptyDir solicitado en la guía
           volumeMounts:
-            - name: data
+            - name: db-data
               mountPath: /var/lib/mysql
       volumes:
-        - name: data
+        - name: db-data
           emptyDir: {}
